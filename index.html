@@ -432,7 +432,7 @@ function shirt(side, uid){
 /* ---------- galería ---------- */
 const PH = [1,2,3,4,5,6,7];
 let cur = 1;
-$('thumbs').innerHTML = PH.map(i=>`<button data-i="${i}" aria-current="${i===1}" aria-label="Foto ${i}"><img src="img/${i}.jpg" alt="" loading="lazy"></button>`).join('');
+$('thumbs').innerHTML = PH.map(i=>`<button data-i="${i}" aria-current="${i===1}" aria-label="Foto ${i}"><img src="img/${i}.jpg" alt=""></button>`).join('');
 $('thumbs').addEventListener('click', e=>{
   const b = e.target.closest('button'); if(!b) return;
   cur = +b.dataset.i; $('mainImg').src = `img/${cur}.jpg`;
