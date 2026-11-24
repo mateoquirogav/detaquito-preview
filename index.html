@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>De Taquito · Elegí o personalizá tu camiseta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Graduate&family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Vista previa PRAXIS · ficha de producto con la descripción tipo landing.
+   Paleta = la de la tienda (blanco y negro). Títulos con letra «college» como el logo. */
+:root{
+  --bg:#FFFFFF; --ink:#0B0B0B; --ink2:#2A2A2A; --mute:#6B6F76; --line:#E4E5E8; --soft:#F4F4F2;
+  --ok:#1E6B3A; --okbg:#E9F4EC;
+  --f-col:"Graduate",Georgia,serif; --f-body:"Inter",system-ui,sans-serif; --f-num:"Oswald","Arial Narrow",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+img{display:block;max-width:100%}
+button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+input{font-size:16px}
+.px{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1180px;margin:0 auto}
+
+/* ---------- aviso de vista previa + encabezado de la tienda ---------- */
+.demo{background:#1B1B1B;color:#BDBDBD;font:600 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:8px 16px}
+.bar{background:var(--ink);color:#fff;font:500 12px/1 var(--f-body);text-align:center;padding:10px 16px;letter-spacing:.02em}
+.hd{border-bottom:1px solid var(--line);background:#fff}
+.hd .in{display:flex;align-items:center;justify-content:space-between;gap:18px;height:72px}
+.hd img{height:44px;width:auto}
+.nav{display:flex;gap:22px;font:600 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
+.nav span{color:var(--ink2)}
+.hd-ic{display:flex;gap:16px}
+.hd-ic svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:900px){.nav{display:none}.hd .in{height:60px}.hd img{height:36px}}
+
+/* ---------- ficha ---------- */
+.crumb{font-size:12px;color:var(--mute);padding:18px 0 14px}
+.pdp{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:44px;align-items:start;padding-bottom:56px}
+@media(max-width:900px){.pdp{grid-template-columns:1fr;gap:20px}}
+
+/* galería: fotos reales o «así queda la tuya» */
+.gal{position:sticky;top:16px}
+@media(max-width:900px){.gal{position:static}}
+.gal-sw{display:inline-flex;background:var(--soft);border-radius:30px;padding:4px;margin-bottom:12px}
+.gal-sw button{border:0;background:none;border-radius:30px;padding:8px 14px;font:600 12px/1 var(--f-body);color:var(--mute)}
+.gal-sw button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.main{aspect-ratio:1/1;background:var(--soft);border-radius:12px;overflow:hidden;position:relative}
+.main img{width:100%;height:100%;object-fit:cover}
+.live{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center;padding:18px 12px;background:radial-gradient(120% 90% at 50% 0%,#fff,#ECECEA)}
+.live[hidden]{display:none}
+.live figure{min-width:0;text-align:center}
+.live svg{width:100%;height:auto;display:block}
+.live figcaption{font:600 10px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+.thumbs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px}
+.thumbs button{border:1px solid transparent;border-radius:8px;overflow:hidden;padding:0;background:var(--soft);aspect-ratio:1/1}
+.thumbs button[aria-current="true"]{border-color:var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+
+/* datos nativos de TN */
+h1{font:400 clamp(21px,2.3vw,27px)/1.2 var(--f-col);letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
+.price{font:700 30px/1 var(--f-num);letter-spacing:.01em;margin:14px 0 6px;font-variant-numeric:tabular-nums}
+.pays{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--mute)}
+.pays b{color:var(--ink);font-weight:600}
+
+/* ---------- la card de la descripción (en TN se muda al lado del precio) ---------- */
+.card{margin-top:20px;border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}
+.k{font:600 11px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:flex;justify-content:space-between;gap:10px}
+.k em{font-style:normal;letter-spacing:0;text-transform:none;font-weight:500}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:14px 14px 13px;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
+.mode[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.mode svg{width:26px;height:26px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mode b{font:700 14px/1.2 var(--f-body)}
+.mode span{font-size:12px;color:var(--mute);line-height:1.35}
+.sec{margin-top:18px}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}
+.sz{min-width:56px;height:46px;border:1px solid var(--line);background:#fff;border-radius:9px;font:600 15px/1 var(--f-num);letter-spacing:.04em}
+.sz[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sz:disabled{color:#BDBFC4;text-decoration:line-through;cursor:not-allowed}
+.fit{display:flex;gap:9px;align-items:flex-start;margin-top:10px;font-size:12.5px;color:var(--ink2);background:var(--soft);border-radius:9px;padding:10px 12px}
+.fit svg{flex:none;width:17px;height:17px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.perso[hidden]{display:none}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.op{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px;text-align:left;min-width:0}
+.op[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.op .ic{flex:none;width:36px;height:36px;display:grid;place-items:center;background:var(--soft);border-radius:8px}
+.op .ic svg{width:30px;height:30px}
+.op b{display:block;font:600 12.5px/1.25 var(--f-body)}
+.op em{font-style:normal;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+.fields{display:grid;grid-template-columns:96px 1fr;gap:8px;margin-top:10px}
+.fields[hidden]{display:none}
+.fields label{display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:var(--mute);min-width:0}
+.fields input{height:48px;border:1px solid var(--line);border-radius:9px;padding:0 12px;background:#fff;color:var(--ink);min-width:0;width:100%}
+#num{font:700 24px var(--f-num);text-align:center}
+#nm{font:600 17px var(--f-num);letter-spacing:.08em;text-transform:uppercase}
+.fields input:focus,.sz:focus-visible,.op:focus-visible,.mode:focus-visible,.buy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sum{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:3px 0;font-variant-numeric:tabular-nums}
+.row span:first-child{color:var(--mute);min-width:0}
+.row[hidden]{display:none}
+.row.tot{font:700 18px/1.3 var(--f-num);padding-top:8px;letter-spacing:.02em}
+.row.tot span:first-child{color:var(--ink)}
+.buy{width:100%;height:56px;margin-top:12px;border:0;border-radius:10px;background:var(--ink);color:#fff;font:700 14px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+.buy:disabled{background:#BDBFC4;cursor:not-allowed}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.trust div{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11.5px;color:var(--mute);text-align:center;line-height:1.3}
+.trust svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.trust b{color:var(--ink);font-weight:600;display:block}
+
+/* ---------- landing (debajo, a lo ancho) ---------- */
+.blk{padding-top:64px;padding-bottom:64px;border-top:1px solid var(--line)}
+@media(max-width:700px){.blk{padding-top:48px;padding-bottom:48px}}
+.blk.dk{background:var(--ink);color:#fff;border-top:0}
+.eb{font:600 11px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:10px}
+.dk .eb{color:#9A9A9A}
+h2{font:400 clamp(24px,3.2vw,36px)/1.15 var(--f-col);text-transform:uppercase;text-wrap:balance;max-width:22ch}
+.lead{color:var(--mute);margin-top:10px;max-width:56ch}
+.dk .lead{color:#B5B5B5}
+.det{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.det figure{min-width:0}
+.det img{aspect-ratio:4/5;object-fit:cover;border-radius:10px;width:100%}
+.det figcaption{margin-top:10px}
+.det figcaption b{display:block;font:600 14px/1.3 var(--f-body)}
+.det figcaption span{font-size:13px;color:var(--mute)}
+@media(max-width:900px){.det{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;margin-left:-16px;margin-right:-16px;padding:0 16px;scrollbar-width:none}.det::-webkit-scrollbar{display:none}.det figure{flex:0 0 68%;scroll-snap-align:start}}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.vs > div{border:1px solid #2E2E2E;border-radius:14px;padding:22px}
+.vs > div.on{background:#fff;color:var(--ink);border-color:#fff}
+.vs h3{font:400 20px/1.2 var(--f-col);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.vs h3 small{font:600 10px/1 var(--f-body);letter-spacing:.14em;background:var(--ink);color:#fff;border-radius:20px;padding:6px 9px}
+.vs ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.vs li{display:flex;gap:10px;font-size:14px;line-height:1.4}
+.vs li svg{flex:none;width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.vs .who{margin-top:16px;padding-top:14px;border-top:1px solid currentColor;border-color:rgba(127,127,127,.3);font-size:13px;opacity:.85}
+@media(max-width:700px){.vs{grid-template-columns:1fr}}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;counter-reset:s}
+.st{border:1px solid var(--line);border-radius:14px;padding:22px;position:relative}
+.st .n{font:700 44px/1 var(--f-num);color:var(--ink)}
+.st b{display:block;font:600 16px/1.3 var(--f-body);margin-top:12px}
+.st p{font-size:13.5px;color:var(--mute);margin-top:6px}
+@media(max-width:700px){.steps{grid-template-columns:1fr}}
+.cta-in{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 22px;border-radius:10px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;font:700 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+.btn.ln{background:#fff;color:var(--ink)}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.faq{margin-top:24px;max-width:820px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 0;font:600 15px/1.35 var(--f-body)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:9px;height:9px;border-right:1.8px solid var(--ink);border-bottom:1.8px solid var(--ink);transform:rotate(45deg);margin-top:-4px;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(225deg);margin-top:4px}
+.faq p{padding:0 0 18px;color:var(--mute);font-size:14px;max-width:70ch}
+.ft{background:var(--ink);color:#9A9A9A;font-size:12px;text-align:center;padding:26px 16px calc(96px + env(safe-area-inset-bottom,0px))}
+
+/* ---------- barra fija ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.06);transform:translateY(110%);transition:transform .28s cubic-bezier(.2,.8,.2,1);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.dock.on{transform:none}
+.dock .in{display:flex;align-items:center;gap:12px}
+.dock img{width:46px;height:46px;border-radius:8px;object-fit:cover;flex:none}
+.dock .tx{flex:1;min-width:0}
+.dock .tx b{display:block;font:700 18px/1.15 var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dock .tx span{display:block;font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock .buy{width:auto;height:48px;margin:0;padding:0 22px;flex:none}
+@media(max-width:480px){.dock .buy{padding:0 14px;font-size:12px;letter-spacing:.08em}.dock img{display:none}}
+
+/* ---------- carrito ---------- */
+.veil{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+.veil.on{opacity:1;pointer-events:auto}
+.cart{position:fixed;z-index:31;top:0;right:0;bottom:0;width:min(400px,100%);background:#fff;transform:translateX(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) 18px}
+.cart.on{transform:none}
+.cart header{display:flex;justify-content:space-between;align-items:center;font:600 12px var(--f-body);letter-spacing:.16em;text-transform:uppercase;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cart header button{border:0;background:none;font-size:24px;line-height:1;width:40px;height:40px}
+.ok{margin:14px 0 4px;background:var(--okbg);color:var(--ok);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:600;display:flex;gap:8px;align-items:center}
+.ok svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.items{flex:1;overflow:auto}
+.it{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.it .th{flex:none;width:64px;height:64px;background:var(--soft);border-radius:8px;display:grid;place-items:center;overflow:hidden}
+.it .th img{width:100%;height:100%;object-fit:cover}
+.it .th svg{width:54px;height:54px}
+.it b{display:block;font:600 13px/1.3 var(--f-body)}
+.it p{margin-top:2px;font-size:12px;color:var(--mute)}
+.it .pr{margin-left:auto;font:600 14px var(--f-num);white-space:nowrap;font-variant-numeric:tabular-nums}
+.note{font-size:11.5px;color:var(--mute);margin-top:10px;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="demo">Vista previa PRAXIS · descripción tipo landing</div>
+<div class="bar">Envíos a todo el país · Personalizamos tu camiseta</div>
+<header class="hd px"><div class="in">
+  <img src="img/logo.png" alt="De Taquito">
+  <nav class="nav"><span>Selecciones</span><span>Clubes</span><span>Liga Argentina</span><span>Retro</span><span>NBA</span><span>Estampados</span></nav>
+  <div class="hd-ic" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.2a2 2 0 01-2 1.8H8.2a2 2 0 01-2-1.8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
+  </div>
+</div></header>
+
+<main>
+<div class="px"><div class="in">
+  <div class="crumb">Inicio › Selecciones › Argentina</div>
+  <div class="pdp">
+
+    <!-- Galería: las fotos son las del producto en Tiendanube -->
+    <section class="gal" aria-label="Fotos del producto">
+      <div class="gal-sw" role="group" aria-label="Qué ver">
+        <button id="gFotos" aria-pressed="true">Fotos reales</button>
+        <button id="gLive" aria-pressed="false">Así queda la tuya</button>
+      </div>
+      <div class="main">
+        <img id="mainImg" src="img/1.jpg" alt="Camiseta Argentina titular versión jugador 2026, frente">
+        <div class="live" id="live" hidden>
+          <figure><svg id="sFront" viewBox="0 0 300 330" role="img" aria-label="Frente"></svg><figcaption>Frente</figcaption></figure>
+          <figure><svg id="sBack" viewBox="0 0 300 330" role="img" aria-label="Espalda"></svg><figcaption>Espalda</figcaption></figure>
+        </div>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+    </section>
+
+    <!-- Columna de compra -->
+    <section>
+      <h1>Camiseta Argentina titular · versión jugador 2026</h1>
+      <div class="price">$65.000</div>
+      <div class="pays"><span><b>$65.000</b> por transferencia</span><span>Hasta <b>6 cuotas</b> con Mercado Pago</span></div>
+
+      <!-- Desde acá es la descripción: se arma por código y se ubica sola debajo del precio -->
+      <div class="card" id="card">
+        <div class="k">¿Cómo la querés?</div>
+        <div class="modes" role="group" aria-label="Cómo la querés">
+          <button class="mode" id="mBase" aria-pressed="true">
+            <svg viewBox="0 0 24 24"><path d="M8 3l-5 3 2 5 2-1v11h10V10l2 1 2-5-5-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"/></svg>
+            <b>Como viene</b><span>Elegís el talle y listo</span>
+          </button>
+          <button class="mode" id="mPerso" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><path d="M8 3l-5 3 2 5 2-1v11h10V10l2 1 2-5-5-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"/><path d="M10 14h4M12 12v5"/></svg>
+            <b>Personalizada</b><span>Parche, nombre y número</span>
+          </button>
+        </div>
+
+        <div class="sec">
+          <div class="k">Talle <em id="szTxt">Elegí uno</em></div>
+          <div class="sizes" id="sizes"></div>
+          <div class="fit"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span><b>Versión jugador: calce entallado.</b> Si dudás entre dos talles, elegí el más grande.</span></div>
+        </div>
+
+        <div class="perso" id="perso" hidden>
+          <div class="sec">
+            <div class="k">Parche <em>va en el pecho</em></div>
+            <div class="opts" id="patches"></div>
+          </div>
+          <div class="sec">
+            <div class="k">Espalda <em>nombre y número</em></div>
+            <div class="opts" id="backs"></div>
+            <div class="fields" id="fields">
+              <label>Número<input id="num" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="10"></label>
+              <label>Nombre<input id="nm" autocomplete="off" maxlength="12" placeholder="Tu nombre"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sum" aria-live="polite">
+          <div class="row"><span>Camiseta</span><span>$65.000</span></div>
+          <div class="row" id="rP" hidden><span id="rPl"></span><span id="rPv"></span></div>
+          <div class="row" id="rB" hidden><span id="rBl"></span><span id="rBv"></span></div>
+          <div class="row tot"><span>Total</span><span id="tot">$65.000</span></div>
+        </div>
+        <button class="buy" id="buy" disabled>Elegí tu talle</button>
+        <div class="trust">
+          <div><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><span><b>Envíos</b>a todo el país</span></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span><b>Compra</b>protegida</span></div>
+          <div><svg viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 01-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1121 12z"/></svg><span><b>Dudas</b>por WhatsApp</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div></div>
+
+<!-- ===== La landing de la descripción, a lo ancho ===== -->
+<section class="blk px"><div class="in">
+  <div class="eb">Mirala de cerca</div>
+  <h2>La misma que usan en la cancha</h2>
+  <p class="lead">Fotos reales de la camiseta que te llega. Sin filtros y con los detalles a la vista.</p>
+  <div class="det">
+    <figure><img src="img/2.jpg" alt="Escudo AFA y parche de campeón del mundo" loading="lazy"><figcaption><b>Escudo y parche oficiales</b><span>Tres estrellas y el parche FIFA de campeón.</span></figcaption></figure>
+    <figure><img src="img/4.jpg" alt="Tela técnica Climacool" loading="lazy"><figcaption><b>Tela técnica ultraliviana</b><span>Respira y seca rápido, como en un partido.</span></figcaption></figure>
+    <figure><img src="img/6.jpg" alt="Detalle 1893 en la nuca" loading="lazy"><figcaption><b>El «1893» en la nuca</b><span>El año en que nació la AFA, en el cuello.</span></figcaption></figure>
+    <figure><img src="img/3.jpg" alt="Etiqueta de producto autorizado" loading="lazy"><figcaption><b>Terminaciones de jugador</b><span>Costuras y etiquetas como la original.</span></figcaption></figure>
+  </div>
+</div></section>
+
+<section class="blk dk px"><div class="in">
+  <div class="eb">Antes de elegir</div>
+  <h2>¿Jugador o hincha? Elegí la tuya</h2>
+  <p class="lead">Esta es la versión jugador. Si buscás una para usar todos los días, también tenemos la versión hincha.</p>
+  <div class="vs">
+    <div class="on">
+      <h3>Versión jugador <small>Esta</small></h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Calce entallado, pegado al cuerpo</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Tela técnica ultraliviana y ventilada</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Escudo y detalles aplicados, como en competencia</li>
+      </ul>
+      <div class="who">Para jugar o para tenerla igual a la de la Selección.</div>
+    </div>
+    <div>
+      <h3>Versión hincha</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Calce regular, más holgado</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Tela más gruesa, para el uso diario</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Cómoda para la cancha o la calle</li>
+      </ul>
+      <div class="who">Para alentar, salir o regalar.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="blk px"><div class="in">
+  <div class="eb">Personalizala</div>
+  <h2>Tu camiseta, con tu nombre, en 3 pasos</h2>
+  <div class="steps">
+    <div class="st"><div class="n">01</div><b>Elegís el parche</b><p>El de campeón de América o ninguno. Lo ves puesto antes de comprar.</p></div>
+    <div class="st"><div class="n">02</div><b>Escribís nombre y número</b><p>O elegís el dorsal oficial. Aparece en la espalda mientras escribís.</p></div>
+    <div class="st"><div class="n">03</div><b>Te llega lista</b><p>La estampamos y la despachamos lista para usar, a todo el país.</p></div>
+  </div>
+  <div class="cta-in">
+    <button class="btn" id="goPerso"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Personalizar la mía</button>
+    <button class="btn ln" id="goBase">La quiero como viene</button>
+  </div>
+</div></section>
+
+<section class="blk px"><div class="in">
+  <div class="eb">Preguntas frecuentes</div>
+  <h2>Lo que nos preguntan siempre</h2>
+  <div class="faq">
+    <details><summary>¿Qué talle me conviene?</summary><p>La versión jugador es entallada. Si te gusta más suelta o dudás entre dos talles, elegí el más grande. Si querés, escribinos por WhatsApp con tu altura y tu peso y te recomendamos uno.</p></details>
+    <details><summary>¿Cómo llega el nombre y el número?</summary><p>Lo que escribís acá queda guardado en tu pedido con el talle. Lo estampamos tal cual lo ves en la vista previa.</p></details>
+    <details><summary>¿Se puede cambiar una camiseta personalizada?</summary><p>Como se arma para vos, revisá bien el talle y el nombre antes de comprar. Ante cualquier duda, consultanos antes y lo resolvemos juntos.</p></details>
+    <details><summary>¿Hacen envíos a todo el país?</summary><p>Sí. Ves el costo y el tiempo de envío a tu domicilio en el carrito, antes de pagar.</p></details>
+    <details><summary>¿Cómo puedo pagar?</summary><p>Con transferencia o con Mercado Pago, en hasta 6 cuotas. Todas las opciones aparecen al finalizar la compra.</p></details>
+  </div>
+</div></section>
+</main>
+
+<footer class="ft">De Taquito · Vista previa armada por PRAXIS</footer>
+
+<div class="dock" id="dock" aria-hidden="true"><div class="in">
+  <img src="img/1.jpg" alt="">
+  <div class="tx"><b id="dTot">$65.000</b><span id="dName">Argentina titular · jugador 2026</span></div>
+  <button class="buy" id="dBuy">Elegí tu talle</button>
+</div></div>
+
+<div class="veil" id="veil"></div>
+<aside class="cart" id="cart" aria-label="Carrito" aria-hidden="true">
+  <header>Tu carrito <button id="close" aria-label="Cerrar carrito">×</button></header>
+  <div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg><span id="okTx">Agregamos tu camiseta</span></div>
+  <div class="items" id="items"></div>
+  <div class="row tot"><span>Total</span><span id="cTot"></span></div>
+  <button class="buy" id="checkout">Iniciar compra</button>
+  <div class="note">Vista previa: en tu tienda sigue al pago de Tiendanube.</div>
+</aside>
+
+<script>
+/* Datos reales de detaquitocba.mitiendanube.com (24-11): precio, talles con stock, parche y dorsal.
+   En la tienda se leen solos de Tiendanube; el estampado a elección toma el precio de su producto. */
+const JERSEY = 65000;
+const SIZES = [{t:'S',ok:true},{t:'M',ok:true},{t:'L',ok:true},{t:'XL',ok:true}];
+const PATCHES = [
+  {id:'no',  name:'Sin parche', price:0},
+  {id:'cda', name:'Campeón de América 2024', price:20000}
+];
+const BACKS = [
+  {id:'no',   name:'Sin nombre', price:0},
+  {id:'tu',   name:'Tu nombre y número', price:null},
+  {id:'messi',name:'Dorsal oficial Messi 10', price:35000}
+];
+const st = {mode:'base', size:null, patch:'no', back:'tu', num:'', name:''};
+const $ = id => document.getElementById(id);
+const ars = n => '$' + n.toLocaleString('es-AR');
+const esc = s => s.replace(/[<>&"]/g,'');
+
+/* ---------- camiseta dibujada (albiceleste) ---------- */
+const SH = 'M96 22 L128 10 Q150 26 172 10 L204 22 L276 62 L252 128 L222 114 L222 318 L78 318 L78 114 L48 128 L24 62 Z';
+function patchSvg(x,y,s){
+  return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 -20 L17 -10 L17 10 L0 20 L-17 10 L-17 -10 Z" fill="#0B0B0B" stroke="#C9A227" stroke-width="2.2"/>
+  <text y="-2" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="7.5" fill="#C9A227">CAMPEÓN</text>
+  <text y="8" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="7.5" fill="#fff">2024</text></g>`;
+}
+function shirt(side, uid){
+  const cid = 'c'+side+uid, aid = 'a'+side+uid;
+  let s = `<defs><clipPath id="${cid}"><path d="${SH}"/></clipPath></defs>
+  <path d="${SH}" fill="#FFFFFF"/>
+  <g clip-path="url(#${cid})" fill="#8EC6EA">
+    <rect x="94" y="0" width="22" height="330"/><rect x="139" y="0" width="22" height="330"/><rect x="184" y="0" width="22" height="330"/>
+    <rect x="49" y="0" width="16" height="330" opacity=".9"/><rect x="235" y="0" width="16" height="330" opacity=".9"/>
+  </g>
+  <g clip-path="url(#${cid})" stroke="#0B0B0B" stroke-width="4" fill="none">
+    <path d="M100 26 L56 52"/><path d="M104 32 L60 58"/><path d="M108 38 L64 64"/>
+    <path d="M200 26 L244 52"/><path d="M196 32 L240 58"/><path d="M192 38 L236 64"/>
+  </g>
+  <path d="${SH}" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1.5"/>`;
+  if(side==='f'){
+    s += `<path d="M128 10 Q150 50 172 10" fill="none" stroke="#0B0B0B" stroke-width="6"/>
+      <g transform="translate(188 84)"><path d="M-12 -14 H12 V4 Q12 14 0 18 Q-12 14 -12 4 Z" fill="#fff" stroke="#0B0B0B" stroke-width="1.6"/><rect x="-12" y="-14" width="24" height="7" fill="#8EC6EA"/><text y="7" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="8" fill="#0B0B0B">AFA</text></g>
+      <g transform="translate(112 84)"><circle r="9" fill="#C9A227"/></g>`;
+    if(st.mode==='perso' && st.patch==='cda') s += patchSvg(150,128,1.15);
+  } else {
+    s += `<path d="M128 10 Q150 22 172 10" fill="none" stroke="#0B0B0B" stroke-width="6"/>
+      <text x="150" y="40" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="10" fill="#0B0B0B">1893</text>`;
+    let nm='', num='';
+    if(st.mode==='perso'){
+      if(st.back==='messi'){ nm='MESSI'; num='10'; }
+      if(st.back==='tu'){ nm=st.name.toUpperCase(); num=st.num; }
+    }
+    if(st.mode==='perso' && st.back!=='no'){
+      const fs = nm.length>9 ? 19 : 23;
+      s += `<path id="${aid}" d="M90 96 Q150 74 210 96" fill="none"/>` +
+        (nm ? `<text font-family="Oswald" font-weight="600" font-size="${fs}" letter-spacing="2" fill="#0B0B0B"><textPath href="#${aid}" startOffset="50%" text-anchor="middle">${esc(nm)}</textPath></text>`
+            : `<text x="150" y="90" text-anchor="middle" font-family="Inter" font-size="11" fill="rgba(0,0,0,.35)">TU NOMBRE</text>`) +
+        (num!=='' ? `<text x="150" y="238" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="116" fill="#0B0B0B" stroke="#fff" stroke-width="5" paint-order="stroke">${num}</text>`
+                  : `<text x="150" y="220" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="100" fill="rgba(0,0,0,.08)">00</text>`);
+    }
+  }
+  return s;
+}
+
+/* ---------- galería ---------- */
+const PH = [1,2,3,4,5,6,7];
+let cur = 1;
+$('thumbs').innerHTML = PH.map(i=>`<button data-i="${i}" aria-current="${i===1}" aria-label="Foto ${i}"><img src="img/${i}.jpg" alt="" loading="lazy"></button>`).join('');
+$('thumbs').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  cur = +b.dataset.i; $('mainImg').src = `img/${cur}.jpg`;
+  document.querySelectorAll('#thumbs button').forEach(x=>x.setAttribute('aria-current', x===b));
+  showLive(false);
+});
+function showLive(on){
+  $('live').hidden = !on;
+  $('gFotos').setAttribute('aria-pressed', !on); $('gLive').setAttribute('aria-pressed', on);
+}
+$('gFotos').addEventListener('click', ()=>showLive(false));
+$('gLive').addEventListener('click', ()=>showLive(true));
+
+/* ---------- opciones ---------- */
+$('sizes').innerHTML = SIZES.map(s=>`<button class="sz" aria-pressed="false" ${s.ok?'':'disabled'}>${s.t}</button>`).join('');
+$('sizes').addEventListener('click', e=>{
+  const b = e.target.closest('.sz'); if(!b || b.disabled) return;
+  st.size = b.textContent; document.querySelectorAll('.sz').forEach(x=>x.setAttribute('aria-pressed', x===b)); render();
+});
+const icPatch = p => p.id==='no' ? '<svg viewBox="-20 -20 40 40"><circle r="13" fill="none" stroke="#C4C6CB" stroke-width="2" stroke-dasharray="4 3"/></svg>' : `<svg viewBox="-22 -22 44 44">${patchSvg(0,0,1)}</svg>`;
+const icBack = b => b.id==='no' ? '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="none" stroke="#C4C6CB" stroke-width="2" stroke-dasharray="4 3"/></svg>'
+  : `<svg viewBox="0 0 40 40"><text x="20" y="29" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="24" fill="#0B0B0B">${b.id==='messi'?'10':'AB'}</text></svg>`;
+$('patches').innerHTML = PATCHES.map(p=>`<button class="op" data-id="${p.id}" aria-pressed="${p.id===st.patch}"><span class="ic">${icPatch(p)}</span><span><b>${p.name}</b><em>${p.price?'+'+ars(p.price):'Sin costo'}</em></span></button>`).join('');
+$('backs').innerHTML = BACKS.map(b=>`<button class="op" data-id="${b.id}" aria-pressed="${b.id===st.back}"><span class="ic">${icBack(b)}</span><span><b>${b.name}</b><em>${b.price===null?'Estampado a elección':b.price?'+'+ars(b.price):'Sin costo'}</em></span></button>`).join('');
+$('patches').addEventListener('click', e=>{
+  const b = e.target.closest('.op'); if(!b) return;
+  st.patch = b.dataset.id; $('patches').querySelectorAll('.op').forEach(x=>x.setAttribute('aria-pressed', x===b)); render(); showLive(true);
+});
+$('backs').addEventListener('click', e=>{
+  const b = e.target.closest('.op'); if(!b) return;
+  st.back = b.dataset.id; $('backs').querySelectorAll('.op').forEach(x=>x.setAttribute('aria-pressed', x===b)); render(); showLive(true);
+});
+$('num').addEventListener('input', e=>{
+  e.target.value = e.target.value.replace(/\D/g,'').slice(0,2);
+  st.num = e.target.value===''?'':String(parseInt(e.target.value,10)); render(); showLive(true);
+});
+$('nm').addEventListener('input', e=>{
+  e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]/g,'').replace(/\s{2,}/g,' ').slice(0,12);
+  st.name = e.target.value.trim(); render(); showLive(true);
+});
+function setMode(m){
+  st.mode = m;
+  $('mBase').setAttribute('aria-pressed', m==='base'); $('mPerso').setAttribute('aria-pressed', m==='perso');
+  $('perso').hidden = m!=='perso';
+  render(); showLive(m==='perso');
+}
+$('mBase').addEventListener('click', ()=>setMode('base'));
+$('mPerso').addEventListener('click', ()=>setMode('perso'));
+const toCard = m => { setMode(m); $('card').scrollIntoView({behavior:'smooth',block:'start'}); };
+$('goPerso').addEventListener('click', ()=>toCard('perso'));
+$('goBase').addEventListener('click', ()=>toCard('base'));
+
+/* ---------- resumen ---------- */
+function calc(){
+  const p = PATCHES.find(x=>x.id===st.patch), b = BACKS.find(x=>x.id===st.back);
+  const perso = st.mode==='perso';
+  const pp = perso ? p.price : 0, bp = perso && b.price ? b.price : 0;
+  const custom = perso && st.back==='tu';
+  return {p,b,perso,pp,bp,custom,total:JERSEY+pp+bp};
+}
+function render(){
+  const c = calc();
+  $('sFront').innerHTML = shirt('f','L'); $('sBack').innerHTML = shirt('b','L');
+  $('fields').hidden = !(c.perso && st.back==='tu');
+  $('rP').hidden = !(c.perso && c.pp); $('rPl').textContent = 'Parche ' + c.p.name; $('rPv').textContent = ars(c.pp);
+  $('rB').hidden = !(c.perso && st.back!=='no');
+  $('rBl').textContent = st.back==='messi' ? 'Dorsal oficial Messi 10' : 'Estampado nombre y número';
+  $('rBv').textContent = st.back==='messi' ? ars(c.bp) : 'en el carrito';
+  const t = ars(c.total) + (c.custom ? ' + estampado' : '');
+  $('tot').textContent = t; $('dTot').textContent = ars(c.total);
+  $('szTxt').textContent = st.size ? 'Talle ' + st.size : 'Elegí uno';
+  let ready = !!st.size, label = 'Agregar al carrito';
+  if(!st.size) label = 'Elegí tu talle';
+  else if(c.custom && (st.num==='' || !st.name)){ ready=false; label = st.num==='' ? 'Escribí el número' : 'Escribí el nombre'; }
+  ['buy','dBuy'].forEach(id=>{ $(id).textContent = label; });
+  $('buy').disabled = !ready;
+  $('dBuy').dataset.ready = ready ? '1' : '';
+  $('dName').textContent = c.custom ? '+ estampado · personalizada' : c.perso ? 'Personalizada' : 'Argentina titular · jugador 2026';
+}
+
+/* ---------- carrito ---------- */
+function openCart(on){ $('cart').classList.toggle('on',on); $('veil').classList.toggle('on',on); $('cart').setAttribute('aria-hidden',!on); }
+function addToCart(){
+  const c = calc();
+  const det = [`Talle ${st.size}`, c.perso && st.back==='tu' && `${st.name.toUpperCase()} ${st.num}`, c.perso && st.back==='messi' && 'MESSI 10'].filter(Boolean).join(' · ');
+  const thumb = c.perso && st.back!=='no' ? `<svg viewBox="0 0 300 330">${shirt('b','C')}</svg>` : '<img src="img/1.jpg" alt="">';
+  let h = `<div class="it"><div class="th">${thumb}</div><div><b>Camiseta Argentina titular · jugador 2026</b><p>${det}</p></div><span class="pr">${ars(JERSEY)}</span></div>`;
+  if(c.pp) h += `<div class="it"><div class="th">${icPatch(c.p)}</div><div><b>Parche ${c.p.name}</b><p>Colocado en el pecho</p></div><span class="pr">${ars(c.pp)}</span></div>`;
+  if(c.perso && st.back==='messi') h += `<div class="it"><div class="th">${icBack(c.b)}</div><div><b>Dorsal oficial Messi 10</b><p>Estampado en la espalda</p></div><span class="pr">${ars(c.bp)}</span></div>`;
+  if(c.custom) h += `<div class="it"><div class="th">${icBack(c.b)}</div><div><b>Estampado nombre y número</b><p>${esc(st.name.toUpperCase())} · ${st.num}</p></div><span class="pr">tu precio</span></div>`;
+  $('items').innerHTML = h;
+  $('okTx').textContent = c.perso ? 'Agregamos tu camiseta personalizada' : 'Agregamos tu camiseta';
+  $('cTot').textContent = $('tot').textContent;
+  openCart(true);
+}
+$('buy').addEventListener('click', addToCart);
+$('dBuy').addEventListener('click', ()=>{ if($('dBuy').dataset.ready) addToCart(); else $('card').scrollIntoView({behavior:'smooth',block:'start'}); });
+$('close').addEventListener('click', ()=>openCart(false));
+$('veil').addEventListener('click', ()=>openCart(false));
+$('checkout').addEventListener('click', ()=>openCart(false));
+
+/* barra fija: aparece cuando la card sale de pantalla */
+new IntersectionObserver(([e])=>{
+  const show = !e.isIntersecting && e.boundingClientRect.top < 0;
+  $('dock').classList.toggle('on', show); $('dock').setAttribute('aria-hidden', !show);
+}).observe($('card'));
+
+render();
+</script>
+</body>
+</html>
